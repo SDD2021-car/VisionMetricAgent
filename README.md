@@ -43,7 +43,7 @@ VisionMetricAgent is a LangGraph-powered assistant that helps evaluate image gen
 ## Evaluation flow
 
 1. **Add pairs** – `add_pair` validates directories and stores them in the session. If a pending evaluation exists, it can automatically continue and compute metrics immediately.
-2. **Evaluate pairs** – `eval_pairs` checks metric names, selects requested pairs (or all), calls `evaluate_dirs`, and caches results for later export.
+2. **Evaluate pairs** – `eval_pairs` checks metric names, selects requested pairs (or all), calls `evaluate_dirs`, and caches results for later export. If no pairs exist yet, it records the pending request so the agent can immediately continue once a pair is added.
 3. **Compute metrics** – `evaluate_dirs` calls `SSIMs_PSNRs` to produce per-image arrays, then summarises mean/variance/min/max/std for each metric.
 4. **Save reports** – `save_last_report` converts the latest multi-pair results into a TXT summary via `save_multi_report_txt`.
 
@@ -53,7 +53,7 @@ VisionMetricAgent is a LangGraph-powered assistant that helps evaluate image gen
 - Image pairing: files are matched by basename; unmatched files trigger warnings but do not halt execution.
 - Resizing: images are resized to the requested square resolution (default 256) before scoring.
 - Hardware: LPIPS loads an AlexNet backbone and moves it to GPU when available; otherwise falls back to CPU.
-- Logging: metric runs write timestamped logs to `/data/eval` and also print to the console.
+- Logging & history: each evaluation is cached in-memory and appended to `logs/eval_history.jsonl` for recall across turns. Use the `list_eval_history` tool to inspect recent runs.
 
 ## Tips for extending or learning the codebase
 
