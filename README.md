@@ -53,7 +53,7 @@ VisionMetricAgent is a LangGraph-powered assistant that helps evaluate image gen
 - Image pairing: files are matched by basename; unmatched files trigger warnings but do not halt execution.
 - Resizing: images are resized to the requested square resolution (default 256) before scoring.
 - Hardware: LPIPS loads an AlexNet backbone and moves it to GPU when available; otherwise falls back to CPU.
-- Logging: metric runs write timestamped logs to `/data/yjy_data/eval` and also print to the console.
+- Logging: metric runs write timestamped logs to `/data/eval` and also print to the console.
 
 ## Tips for extending or learning the codebase
 
